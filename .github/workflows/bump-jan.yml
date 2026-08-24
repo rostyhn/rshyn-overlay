@@ -1,0 +1,19 @@
+name: Bump jan-bin
+on:
+  schedule:
+    - cron: '0 6 * * *'   # daily
+  workflow_dispatch: {}
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for new Jan release and bump
+        run: bash scripts/bump-jan.sh
+      - name: Open PR if changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "app-misc/jan-bin: version bump"
+          title: "app-misc/jan-bin: automated version bump"
+          branch: bump-jan-bin
