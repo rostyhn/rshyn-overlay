@@ -1,5 +1,7 @@
 EAPI=8
 
+inherit desktop xdg
+
 DESCRIPTION="Client for running LLMs locally"
 HOMEPAGE="https://jan.ai https://github.com/janhq/jan"
 SRC_URI="https://github.com/janhq/jan/releases/download/v0.8.4/Jan_0.8.4_amd64.deb -> ${P}.deb"
@@ -25,7 +27,7 @@ RDEPEND="
 	x11-libs/gdk-pixbuf:2
 	x11-libs/gtk+:3
 	x11-libs/pango
-    dev-libs/libappindicator
+    dev-libs/libayatana-appindicator
 	|| ( sys-apps/systemd sys-apps/systemd-utils )
 	bun? ( dev-lang/bun )
 	uv? ( dev-python/uv )
@@ -44,30 +46,30 @@ src_unpack() {
 }
 
 src_install() {
-	local D="${WORKDIR}/deb-extract/data"
+	local SRCDIR="${WORKDIR}/deb-extract"
 
 	exeinto /usr/bin
-	doexe "${D}"/usr/bin/Jan
-	doexe "${D}"/usr/bin/jan-cli
+	doexe "${SRCDIR}"/usr/bin/Jan
+	doexe "${SRCDIR}"/usr/bin/jan-cli
 	dosym Jan /usr/bin/jan
 
 	# resources dir must stay named exactly "Jan" next to the binary --
-	# Tauri resolves it relative to the executable name 
+	# Tauri resolves it relative to the executable name
 	insinto /usr/lib/Jan/resources
-	doins "${D}"/usr/lib/Jan/resources/LICENSE
+	doins "${SRCDIR}"/usr/lib/Jan/resources/LICENSE
 	exeinto /usr/lib/Jan/resources/bin
-	doexe "${D}"/usr/lib/Jan/resources/bin/jan-cli
+	doexe "${SRCDIR}"/usr/lib/Jan/resources/bin/jan-cli
 
-	domenu "${D}"/usr/share/applications/Jan.desktop
+	domenu "${SRCDIR}"/usr/share/applications/Jan.desktop
 
 	insinto /usr/share/icons/hicolor/32x32/apps
-	doins "${D}"/usr/share/icons/hicolor/32x32/apps/Jan.png
+	doins "${SRCDIR}"/usr/share/icons/hicolor/32x32/apps/Jan.png
 	insinto /usr/share/icons/hicolor/128x128/apps
-	doins "${D}"/usr/share/icons/hicolor/128x128/apps/Jan.png
+	doins "${SRCDIR}"/usr/share/icons/hicolor/128x128/apps/Jan.png
 	insinto /usr/share/icons/hicolor/256x256@2/apps
-	doins "${D}"/usr/share/icons/hicolor/256x256@2/apps/Jan.png
+	doins "${SRCDIR}"/usr/share/icons/hicolor/256x256@2/apps/Jan.png
 
-	dodoc "${D}"/usr/lib/Jan/resources/LICENSE
+	dodoc "${SRCDIR}"/usr/lib/Jan/resources/LICENSE
 }
 
 pkg_postinst() {
