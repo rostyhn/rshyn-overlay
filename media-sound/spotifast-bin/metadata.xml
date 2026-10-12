@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>rostyslav.hnatyshyn@gmail.com</email>
+		<name>Rosty</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">crmne/spotifast</remote-id>
+		<bugs-to>https://github.com/crmne/spotifast/issues</bugs-to>
+	</upstream>
+	<longdescription>
+		Spotifast is a native Spotify client written in Rust with egui, playing
+		through librespot. Playback requires Spotify Premium.
+	</longdescription>
+</pkgmetadata>
