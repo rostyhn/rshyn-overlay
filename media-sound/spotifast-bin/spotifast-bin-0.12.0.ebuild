@@ -40,7 +40,7 @@ RDEPEND="
 	)
 	wayland? ( dev-libs/wayland )
 "
-BDEPEND="sys-fs/squashfs-tools"
+BDEPEND="sys-fs/squashfs-tools[zstd]"
 
 QA_PREBUILT="usr/bin/spotifast"
 
