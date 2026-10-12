@@ -1,0 +1,46 @@
+name: Bump packages
+on:
+  schedule:
+    - cron: '17 6 * * *'   # daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # Every package directory with a bump.conf gets its own job below.
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.list.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: list
+        run: |
+          pkgs=$(find . -mindepth 3 -maxdepth 3 -name bump.conf -printf '%h\n' \
+            | sed 's|^\./||' | sort | jq -Rsc 'split("\n") | map(select(length > 0))')
+          echo "packages=${pkgs}" >> "$GITHUB_OUTPUT"
+
+  bump:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false   # a broken upstream release doesn't block the others
+      matrix:
+        package: ${{ fromJSON(needs.discover.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump ${{ matrix.package }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PKG: ${{ matrix.package }}
+        run: bash scripts/bump.sh "$PKG"
+      - name: Open PR if changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: ${{ matrix.package }}
+          commit-message: "${{ matrix.package }}: version bump"
+          title: "${{ matrix.package }}: automated version bump"
+          branch: bump/${{ matrix.package }}
+          delete-branch: true
