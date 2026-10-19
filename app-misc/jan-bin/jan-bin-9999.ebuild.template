@@ -33,7 +33,7 @@ RDEPEND="
 	uv? ( dev-python/uv )
 "
 
-QA_PREBUILT="usr/bin/Jan usr/bin/jan-cli usr/lib/Jan/resources/bin/jan-cli"
+QA_PREBUILT="usr/bin/Jan-Desktop"
 
 S="${WORKDIR}"
 
@@ -49,8 +49,7 @@ src_install() {
 	local SRCDIR="${WORKDIR}/deb-extract"
 
 	exeinto /usr/bin
-	doexe "${SRCDIR}"/usr/bin/Jan
-	doexe "${SRCDIR}"/usr/bin/jan-cli
+	doexe "${SRCDIR}"/usr/bin/Jan-Desktop
 	dosym Jan /usr/bin/jan
 
 	# resources dir must stay named exactly "Jan" next to the binary --
@@ -58,16 +57,15 @@ src_install() {
 	insinto /usr/lib/Jan/resources
 	doins "${SRCDIR}"/usr/lib/Jan/resources/LICENSE
 	exeinto /usr/lib/Jan/resources/bin
-	doexe "${SRCDIR}"/usr/lib/Jan/resources/bin/jan-cli
 
 	domenu "${SRCDIR}"/usr/share/applications/Jan.desktop
 
 	insinto /usr/share/icons/hicolor/32x32/apps
-	doins "${SRCDIR}"/usr/share/icons/hicolor/32x32/apps/Jan.png
+	doins "${SRCDIR}"/usr/share/icons/hicolor/32x32/apps/Jan-Desktop.png
 	insinto /usr/share/icons/hicolor/128x128/apps
-	doins "${SRCDIR}"/usr/share/icons/hicolor/128x128/apps/Jan.png
+	doins "${SRCDIR}"/usr/share/icons/hicolor/128x128/apps/Jan-Desktop.png
 	insinto /usr/share/icons/hicolor/256x256@2/apps
-	doins "${SRCDIR}"/usr/share/icons/hicolor/256x256@2/apps/Jan.png
+	doins "${SRCDIR}"/usr/share/icons/hicolor/256x256@2/apps/Jan-Desktop.png
 
 	dodoc "${SRCDIR}"/usr/lib/Jan/resources/LICENSE
 }
