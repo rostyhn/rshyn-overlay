@@ -4,7 +4,7 @@ inherit desktop xdg
 
 DESCRIPTION="Client for running LLMs locally"
 HOMEPAGE="https://jan.ai https://github.com/janhq/jan"
-SRC_URI="https://github.com/janhq/jan/releases/download/v0.8.6/Jan_0.8.6_amd64.deb -> ${P}.deb"
+SRC_URI="https://github.com/janhq/jan/releases/download/v0.8.7/Jan_0.8.7_amd64.deb -> ${P}.deb"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -53,7 +53,7 @@ src_install() {
 	dosym Jan /usr/bin/jan
 
 	# resources dir must stay named exactly "Jan" next to the binary --
-	# Tauri resolves it relative to the executable name
+	# Tauri resolves it relative to the executable name 
 	insinto /usr/lib/Jan/resources
 	doins "${SRCDIR}"/usr/lib/Jan/resources/LICENSE
 	exeinto /usr/lib/Jan/resources/bin
